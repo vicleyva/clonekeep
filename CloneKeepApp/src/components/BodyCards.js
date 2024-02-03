@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { useCustomContext, useCustomContextUpdate, MODIFY_OPTIONS } from '../context/CustomContext';
 import { EditNoteModal } from "./EditNoteModal";
@@ -59,6 +59,9 @@ export function BodyCards() {
                         value: [...newList],
                     });
                 }
+                break;
+            default:
+                console.log('Action not handled');
                 break;
         }
         setAnchorElMenu(null);
