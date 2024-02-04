@@ -1,6 +1,6 @@
 import React from 'react'
 import { BodyCards } from './BodyCards';
-import { BodyCreateArea } from './CreateNote';
+import { CreateArea } from './CreateNote';
 import { Grid } from '@mui/material';
 
 export default function AppBody() {
@@ -9,7 +9,7 @@ export default function AppBody() {
             padding: '0rem 0rem',
             margin: '0 0 0 0',
         }}>
-            <BodyCreateArea />
+            <CreateArea />
             <BodyCards />
         </Grid>
     )

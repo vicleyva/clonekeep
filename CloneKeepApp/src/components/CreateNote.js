@@ -13,7 +13,7 @@ const defaultNewNote = {
     tags: [],
 };
 
-export function BodyCreateArea() {
+export function CreateArea() {
     const { notes } = useCustomContext();
     const updateContext = useCustomContextUpdate();
 
