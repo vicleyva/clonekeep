@@ -1,11 +1,14 @@
 const express = require('express')
-const notesRoutes = require('./routes/notes-routes')
+const path = require('path');
+const NotesRoutes = require('./routes/notes-routes')
 
 const app = express()
 const port = 5000;
 
 // Parse body 
 app.use(express.json())
+
+app.use('/uploads/images', express.static(path.join('uploads', 'images')));
 
 // Set CORS
 app.use((req, res, next) => {
@@ -25,7 +28,7 @@ app.use((req, res, next) => {
 // PUT    /notes/
 // DELETE /notes/
 // We need to register prefix with app.use
-app.use('/notes', notesRoutes)
+app.use('/notes', NotesRoutes)
 
 app.use((req, res, next) => {
     res.status(404)
