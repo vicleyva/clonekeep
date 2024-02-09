@@ -9,7 +9,7 @@ import { useCustomContext, useCustomContextUpdate, MODIFY_OPTIONS } from '../con
 export default function AppWrapper() {
     const updateContext = useCustomContextUpdate()
     const { notes } = useCustomContext()
-    const { sendRequest, isLoading, reset } = useFetch();
+    const { sendRequest, reset } = useFetch();
     useEffect(() => {
         // Fetch your notes here
         const fetchNotes = async () => {
@@ -21,7 +21,7 @@ export default function AppWrapper() {
                     value: response.notes,
                 });
             } catch (error) {
-                console.error('Error fetching notes:', error);
+                // console.error('Error fetching notes:', error);
                 // Handle error if needed
             }
         };

@@ -45,7 +45,7 @@ export function EditNoteModal({ open, onClose, index }) {
     };
 
     const handleColorChange = (newColor) => {
-        setEditedNote({ ...editedNote, color: newColor.hex });
+        setEditedNote({ ...editedNote, color: (newColor.hex !== 'transparent') ? newColor.hex : null });
     };
 
     const handleFileInputChange = (e) => {

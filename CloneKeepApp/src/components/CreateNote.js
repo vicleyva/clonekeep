@@ -4,6 +4,7 @@ import { useCustomContext, useCustomContextUpdate, MODIFY_OPTIONS } from '../con
 import { Note } from './Note';
 import NoteDummy from "./NoteDummy";
 import { Grid, Paper, ClickAwayListener } from '@mui/material';
+import { useFetch } from "../hooks/useFetch";
 
 const defaultNewNote = {
     title: null,
@@ -16,6 +17,7 @@ const defaultNewNote = {
 export function CreateNote() {
     const { notes } = useCustomContext();
     const updateContext = useCustomContextUpdate();
+    const { sendRequest, reset } = useFetch();
 
     const [newNote, setNewNote] = useState({
         ...defaultNewNote,
@@ -62,22 +64,30 @@ export function CreateNote() {
     };
 
     const handleColorChange = (newColor) => {
-        setNewNote({ ...newNote, color: newColor.hex });
+        setNewNote({ ...newNote, color: (newColor.hex !== 'transparent') ? newColor.hex : null });
     };
 
     const handleFocus = () => {
         setGridFocused(true);
     };
 
-    const handleClickAway = () => {
-        setGridFocused(false);
+    const handleClickAway = async () => {
+        if (!!newNote.text || !!newNote.title || !!newNote.files) {
+            const createNoteRequest = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes`,
+                'POST',
+                JSON.stringify(newNote),
+                {
+                    'Content-Type': 'application/json',
+                }
+            )
+            console.log(createNoteRequest);
+            updateContext({
+                target: MODIFY_OPTIONS.NOTES,
+                value: [createNoteRequest.createdNote],
+            });
+            setGridFocused(false);
+        }
         resetNewNote()
-        // if (newNote.text.trim().length || newNote.title.trim().length || !!newNote.files) {
-        //     updateContext({
-        //         target: MODIFY_OPTIONS.NOTES,
-        //         value: [newNote],
-        //     });
-        // }
     };
 
     const handleAddTag = (tag) => {

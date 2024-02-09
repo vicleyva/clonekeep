@@ -112,9 +112,9 @@ export function Note({
             {colorPickerVisible &&
                 <CirclePicker
                     onChange={handleColorChange}
-                    color={note.color}
+                    color={note.color || false}
                     circleSize={20}
-                    colors={["#f44336", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5", "#2196f3", "rgba(0, 0, 0, 0)"]}
+                    colors={["#f44336", "#e91e63", "#9c27b0", "#673ab7", "#3f51b5", "#2196f3", "#00000000"]}
                     styles={{
                         default: {
                             border: "2px solid #ccc"
