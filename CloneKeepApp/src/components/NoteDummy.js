@@ -13,7 +13,7 @@ export default function NoteDummy({ handleFileInputChange }) {
 
     return (
         <TextField
-            placeholder="Añade una nota..."
+            placeholder="Add note..."
             fullWidth
             variant="standard"
             InputProps={{
@@ -21,7 +21,7 @@ export default function NoteDummy({ handleFileInputChange }) {
                 disableUnderline: true,
                 endAdornment: (
                     <>
-                        <Tooltip title="Nueva nota con imagen"
+                        <Tooltip title="New note with image"
                             style={{
                                 marginLeft: '1rem',
                             }}

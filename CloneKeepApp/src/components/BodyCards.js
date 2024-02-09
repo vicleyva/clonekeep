@@ -76,6 +76,7 @@ export function BodyCards() {
     const handleClose = (e) => {
         e.preventDefault();
         e.stopPropagation();
+
         setAnchorElMenu(null);
     };
 
@@ -108,22 +109,21 @@ export function BodyCards() {
                                 visibility: (selectedNoteIndex !== null && selectedNoteIndex === index) ? 'hidden' : 'visible',
                                 position: 'relative',
                             }}>
-                            {!!note.img && note.img.length > 0 && (
+                            {!!note.files && note.files.length > 0 && (
                                 <>
                                     <ImageList
                                         sx={{ width: '100%' }}
                                         variant="quilted"
-                                        cols={(Array.from(note.img).length < 3) ? Array.from(note.img).length : 3}
+                                        cols={(Array.from(note.files).length < 3) ? Array.from(note.files).length : 3}
                                     >
                                         {
-                                            Array.from(note.img).map((file, index) => {
-                                                const objectURL = URL.createObjectURL(file);
+                                            Array.from(note.files).map((file, index) => {
                                                 return (
                                                     <ImageListItem key={index} cols={1} rows={1}>
                                                         <img
-                                                            src={`${objectURL}`}
+                                                            src={`${process.env.REACT_APP_ASSETS_URL}/${file.name}`}
                                                             loading="lazy"
-                                                            alt={`Note ${index}`}
+                                                            alt={`${file.name}`}
                                                             style={{
                                                                 borderRadius: '0.7rem',
                                                                 objectFit: 'cover',
@@ -141,7 +141,7 @@ export function BodyCards() {
                                 </>
                             )
                             }
-                            {note.titulo && (
+                            {note.title && (
                                 <TextField
                                     size="small"
                                     InputProps={{
@@ -154,10 +154,10 @@ export function BodyCards() {
                                     fullWidth
                                     variant="standard"
                                     multiline
-                                    value={note.titulo}
+                                    value={note.title}
                                 />
                             )}
-                            {note.texto && (
+                            {note.text && (
                                 <TextField
                                     size="small"
                                     InputProps={{
@@ -167,11 +167,11 @@ export function BodyCards() {
                                     fullWidth
                                     variant="standard"
                                     multiline
-                                    value={note.texto}
+                                    value={note.text}
                                 />
                             )}
-                            {note.tags.map((tag, tagIndex) => (
-                                <Chip key={tagIndex} label={tag} style={{ marginRight: '0.5rem', marginBottom: '0.5rem' }} />
+                            {!!note.tags && note.tags.map((tag, tagIndex) => (
+                                <Chip key={tagIndex} label={tag.text} style={{ marginRight: '0.5rem', marginBottom: '0.5rem' }} />
                             ))}
                             {hoveredIndex === index && (
                                 <div className="delete-icon-container">
@@ -195,10 +195,10 @@ export function BodyCards() {
                                         onClose={handleClose}
                                     >
                                         <MenuItem id="delete" onClick={(e) => handleNoteEvent(e, index)}>
-                                            Eliminar nota
+                                            Delete note
                                         </MenuItem>
                                         <MenuItem id="clone" onClick={(e) => handleNoteEvent(e, index)}>
-                                            Clonar nota
+                                            Clone note
                                         </MenuItem>
                                     </Menu>
                                 </div>

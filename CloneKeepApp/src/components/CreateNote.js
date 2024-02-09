@@ -6,19 +6,18 @@ import NoteDummy from "./NoteDummy";
 import { Grid, Paper, ClickAwayListener } from '@mui/material';
 
 const defaultNewNote = {
-    titulo: '',
-    texto: '',
-    color: false,
-    img: null,
+    title: null,
+    text: null,
+    color: null,
+    files: [],
     tags: [],
 };
 
-export function CreateArea() {
+export function CreateNote() {
     const { notes } = useCustomContext();
     const updateContext = useCustomContextUpdate();
 
     const [newNote, setNewNote] = useState({
-        id: notes.length + 1,
         ...defaultNewNote,
     });
     const [renderWithFocus, setRenderWithFocus] = useState(false);
@@ -26,7 +25,6 @@ export function CreateArea() {
 
     const resetNewNote = useCallback(() => {
         setNewNote({
-            id: notes.length + 1,
             ...defaultNewNote,
         });
     }, [notes.length]);
@@ -43,21 +41,21 @@ export function CreateArea() {
     }, [renderWithFocus]);
 
     const handleTitleChange = (e) => {
-        setNewNote({ ...newNote, titulo: e.target.value });
+        setNewNote({ ...newNote, title: (e.target.value.length) ? e.target.value : null });
     };
 
     const handleTextChange = (e) => {
-        setNewNote({ ...newNote, texto: e.target.value });
+        setNewNote({ ...newNote, text: (e.target.value.length) ? e.target.value : null });
     };
 
     const handleFileInputChange = (e) => {
         const files = e.target.files;
 
         if (files && files.length > 0) {
-            if (newNote.img === null) {
-                setNewNote((prev) => ({ ...prev, img: files }));
+            if (newNote.files === null) {
+                setNewNote((prev) => ({ ...prev, files: files }));
             } else {
-                setNewNote((prev) => ({ ...prev, img: [...prev.img, ...files] }));
+                setNewNote((prev) => ({ ...prev, files: [...prev.files, ...files] }));
             }
             setRenderWithFocus(true);
         }
@@ -74,12 +72,12 @@ export function CreateArea() {
     const handleClickAway = () => {
         setGridFocused(false);
         resetNewNote()
-        if (newNote.texto.trim().length || newNote.titulo.trim().length || !!newNote.img) {
-            updateContext({
-                target: MODIFY_OPTIONS.NOTES,
-                value: [newNote],
-            });
-        }
+        // if (newNote.text.trim().length || newNote.title.trim().length || !!newNote.files) {
+        //     updateContext({
+        //         target: MODIFY_OPTIONS.NOTES,
+        //         value: [newNote],
+        //     });
+        // }
     };
 
     const handleAddTag = (tag) => {

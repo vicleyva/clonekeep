@@ -14,11 +14,11 @@ export function EditNoteModal({ open, onClose, index }) {
     }, [notes, index]);
 
     const handleTitleChange = (e) => {
-        setEditedNote({ ...editedNote, titulo: e.target.value });
+        setEditedNote({ ...editedNote, title: e.target.value });
     };
 
     const handleTextChange = (e) => {
-        setEditedNote({ ...editedNote, texto: e.target.value });
+        setEditedNote({ ...editedNote, text: e.target.value });
     };
 
     const handleSave = () => {
@@ -52,10 +52,10 @@ export function EditNoteModal({ open, onClose, index }) {
         const files = e.target.files;
 
         if (files && files.length > 0) {
-            if (editedNote.img === null) {
+            if (editedNote.files === null) {
                 setEditedNote((prev) => ({ ...prev, img: files }));
             } else {
-                setEditedNote((prev) => ({ ...prev, img: [...prev.img, ...files] }));
+                setEditedNote((prev) => ({ ...prev, img: [...prev.files, ...files] }));
             }
         }
     };

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 
 import { ImagesArea } from './ImagesArea';
-import { TextField, Tooltip, IconButton, Menu, MenuItem } from '@mui/material';
+import { TextField, TextareaAutosize, Tooltip, IconButton, Menu, MenuItem } from '@mui/material';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import PaletteOutlinedIcon from '@mui/icons-material/PaletteOutlined';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
@@ -46,7 +46,7 @@ export function Note({
 
     return <>
         <ImagesArea note={note} />
-        <TextField placeholder="Título"
+        <TextField placeholder="Title"
             InputProps={{
                 style: {
                     outline: 'none'
@@ -60,12 +60,13 @@ export function Note({
             variant="standard"
             multiline
             onChange={handleTitleChange}
-            value={note.titulo}
+            value={note.title || ''}
         />
         <TextField
-            placeholder="Añade una nota..."
+            placeholder="Add note..."
             fullWidth
             variant="standard"
+            multiline
             onChange={handleTextChange}
             InputProps={{
                 style: {
@@ -74,12 +75,12 @@ export function Note({
                 },
                 disableUnderline: true
             }}
-            value={note.texto}
+            value={note.text || ''}
         />
         {note.tags.map((tag, index) =>
             <Chip
                 key={index}
-                label={tag}
+                label={tag.text}
                 onDelete={() => handleDeleteTag(tag)}
                 style={{
                     marginRight: '0.5rem',
@@ -88,17 +89,17 @@ export function Note({
             />
         )}
         <div>
-            <Tooltip title="Agregar imagen">
+            <Tooltip title="Add image">
                 <IconButton onMouseDown={handleImageIconClick}>
                     <ImageOutlinedIcon />
                 </IconButton>
             </Tooltip>
-            <Tooltip title="Color de fondo">
+            <Tooltip title="Background">
                 <IconButton onMouseDown={handleColorIconClick} ref={colorPickerButtonRef}>
                     <PaletteOutlinedIcon />
                 </IconButton>
             </Tooltip>
-            <Tooltip title="Etiquetas">
+            <Tooltip title="Tags">
                 <IconButton onClick={handleTagMenuOpen}>
                     <LocalOfferOutlinedIcon />
                 </IconButton>
