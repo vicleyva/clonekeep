@@ -1,21 +1,16 @@
 const uuid = require('uuid');
 const fs = require('fs');
-const { validationResult } = require('express-validator');
 const notesRepository = require('../repositories/notesRepository');
 
 const createNote = async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json({ errors: errors.array() });
-    }
-
     try {
         const newNote = req.body;
         newNote.noteID = uuid.v4();
 
-        const result = await notesRepository.createNoteInDatabase(newNote);
+        await notesRepository.createNoteInDatabase(newNote);
+        const createdNote = await notesRepository.getNoteByID(newNote.noteID);
 
-        res.status(201).json({ message: 'Note created successfully', result });
+        res.status(201).json({ createdNote });
     } catch (error) {
         res.status(500).json({ message: 'Error creating note', error: error.message, body: req.body });
     }
