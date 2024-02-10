@@ -17,7 +17,7 @@ const defaultNewNote = {
 export function CreateNote() {
     const { notes } = useCustomContext();
     const updateContext = useCustomContextUpdate();
-    const { sendRequest, reset } = useFetch();
+    const { sendRequest } = useFetch();
 
     const [newNote, setNewNote] = useState({
         ...defaultNewNote,
@@ -29,7 +29,7 @@ export function CreateNote() {
         setNewNote({
             ...defaultNewNote,
         });
-    }, [notes.length]);
+    }, []);
 
     useEffect(() => {
         resetNewNote();
@@ -72,7 +72,7 @@ export function CreateNote() {
     };
 
     const handleClickAway = async () => {
-        if (!!newNote.text || !!newNote.title || !!newNote.files) {
+        if (!!newNote.text || !!newNote.title || newNote.files.length) {
             const createNoteRequest = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes`,
                 'POST',
                 JSON.stringify(newNote),
@@ -80,18 +80,50 @@ export function CreateNote() {
                     'Content-Type': 'application/json',
                 }
             )
-            console.log(createNoteRequest);
+
+            // CREATE FILES ATTACHED TO NOTE
+            if (newNote.files.length) {
+                await Promise.all(newNote.files.map(async file => {
+                    const formData = new FormData()
+                    formData.append('file', file)
+                    await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${createNoteRequest.noteID}/file`,
+                        'POST',
+                        formData
+                    )
+                }))
+            }
+
+            //CREATE TAGS ATTACHED TO NOTE
+            if (newNote.tags.length) {
+                await Promise.all(
+                    newNote.tags.map(async tag => {
+                        await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${createNoteRequest.noteID}/tag`,
+                            'POST',
+                            JSON.stringify(tag),
+                            {
+                                'Content-Type': 'application/json',
+                            }
+                        )
+                    })
+                )
+            }
+
+            const newCreatedNote = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${createNoteRequest.noteID}`)
+            console.log(newCreatedNote);
             updateContext({
                 target: MODIFY_OPTIONS.NOTES,
-                value: [createNoteRequest.createdNote],
+                value: [newCreatedNote],
             });
-            setGridFocused(false);
         }
+        setGridFocused(false);
         resetNewNote()
     };
 
     const handleAddTag = (tag) => {
-        setNewNote((prev) => ({ ...prev, tags: [...prev.tags, tag] }));
+        const newTag = {
+            text: tag
+        }
+        setNewNote((prev) => ({ ...prev, tags: [...prev.tags, newTag] }));
     };
 
     const handleDeleteTag = (tagToDelete) => {
