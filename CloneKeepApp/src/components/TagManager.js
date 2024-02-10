@@ -17,6 +17,12 @@ const TagManager = ({ onAddTag }) => {
         }
     };
 
+    const handleKeyUp = (event) => {
+        if (event.key === 'Enter') {
+            handleAddTag();
+        }
+    };
+
     return (
         <div style={{ display: 'flex', alignItems: 'center' }}>
             <TextField
@@ -24,6 +30,7 @@ const TagManager = ({ onAddTag }) => {
                 variant="outlined"
                 value={tagInput}
                 size="small"
+                onKeyUp={handleKeyUp}
                 onChange={handleTagInputChange}
                 style={{ marginRight: '8px', width: '15rem' }}
             />
