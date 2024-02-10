@@ -4,12 +4,12 @@ import AppHeader from './AppHeader';
 import AppBody from './AppBody';
 import { Grid } from "@mui/material";
 import { useFetch } from "../hooks/useFetch";
-import { useCustomContext, useCustomContextUpdate, MODIFY_OPTIONS } from '../context/CustomContext';
+import { useCustomContextUpdate, MODIFY_OPTIONS } from '../context/CustomContext';
+import Spinner from './Spinner';
 
 export default function AppWrapper() {
     const updateContext = useCustomContextUpdate()
-    const { notes } = useCustomContext()
-    const { sendRequest, reset } = useFetch();
+    const { sendRequest, isLoading, reset } = useFetch();
     useEffect(() => {
         // Fetch your notes here
         const fetchNotes = async () => {
@@ -41,8 +41,13 @@ export default function AppWrapper() {
             justifyContent: 'center',
             width: '100%',
         }}>
-            <AppHeader></AppHeader>
-            <AppBody></AppBody>
+            {isLoading && <Spinner></Spinner>}
+            {!isLoading &&
+                <>
+                    <AppHeader></AppHeader>
+                    <AppBody></AppBody>
+                </>
+            }
         </Grid>
     )
 }

@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 
 import { ImagesArea } from './ImagesArea';
-import { TextField, TextareaAutosize, Tooltip, IconButton, Menu, MenuItem } from '@mui/material';
+import { TextField, Tooltip, IconButton, Menu, MenuItem } from '@mui/material';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import PaletteOutlinedIcon from '@mui/icons-material/PaletteOutlined';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
