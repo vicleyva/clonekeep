@@ -103,6 +103,57 @@ async function getNoteFiles(noteID) {
   }
 }
 
+async function deleteNote(noteID) {
+  try {
+    const connection = await pool.getConnection();
+
+    // Delete associated files
+    await deleteNoteFiles(noteID)
+
+    // Delete associated tags
+    await deleteNoteTags(noteID)
+
+    // Delete the note
+    const [result] = await connection.query('DELETE FROM notes WHERE noteID = ?', [noteID]);
+
+    connection.release();
+    return result;
+  } catch (error) {
+    console.error('Error deleting note and associated records from the database:', error.message);
+    throw error;
+  }
+}
+
+async function deleteNoteTags(noteID) {
+  try {
+    const connection = await pool.getConnection();
+
+    // Delete associations
+    await connection.query('DELETE FROM notes_tags WHERE noteID = ?', [noteID]);
+
+    connection.release();
+    return true;
+  } catch (error) {
+    console.error('Error deleting associated note tags from the database:', error.message);
+    throw error;
+  }
+}
+
+async function deleteNoteFiles(noteID) {
+  try {
+    const connection = await pool.getConnection();
+
+    // Delete associations
+    await connection.query('DELETE FROM notes_files WHERE noteID = ?', [noteID]);
+
+    connection.release();
+    return true;
+  } catch (error) {
+    console.error('Error deleting associated note files from the database:', error.message);
+    throw error;
+  }
+}
+
 async function saveFileInDatabase(file) {
   try {
     const connection = await pool.getConnection();
@@ -237,5 +288,6 @@ module.exports = {
   getNoteTags,
   associateNoteWithTag,
   findTag,
+  deleteNote
 };
 

@@ -12,6 +12,8 @@ router.get('/:noteID', notesController.getNoteByID)
 
 router.post('/', notesController.createNote)
 
+router.delete('/:noteID', notesController.deleteNoteByID)
+
 router.post('/:noteID/file',
     fileUpload.single('file'),
     generateChecksum('md5'),

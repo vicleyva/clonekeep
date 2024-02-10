@@ -36,6 +36,16 @@ const getNoteByID = async (req, res) => {
     }
 }
 
+const deleteNoteByID = async (req, res) => {
+    try {
+        const { noteID } = req.params;
+        await notesRepository.deleteNote(noteID);
+        res.status(200).json(true)
+    } catch (error) {
+        res.status(500).json({ message: 'Error deleting note', error: error.message });
+    }
+}
+
 const createNoteFile = async (req, res) => {
     if (!req.file) {
         return res.status(400).json({ message: 'No file uploaded' });
@@ -139,5 +149,6 @@ module.exports = {
     getAllNotes,
     createNoteFile,
     createNoteTag,
-    getNoteByID
+    getNoteByID,
+    deleteNoteByID
 };
