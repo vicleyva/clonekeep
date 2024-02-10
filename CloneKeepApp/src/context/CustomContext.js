@@ -5,7 +5,7 @@ export const MODIFY_OPTIONS = {
     NOTES: 'notes',
     SEARCH: 'search',
     UPDATE_NOTE: 'updateNote',
-    DELETE_NOTE: 'deleteNote',
+    UPDATE_NOTES: 'deleteNote',
     CLONE_NOTE: 'cloneNote'
 };
 
@@ -35,7 +35,7 @@ function customContextReducer(state, action) {
                 ...state,
                 [MODIFY_OPTIONS.THEME]: value,
             };
-        case MODIFY_OPTIONS.DELETE_NOTE:
+        case MODIFY_OPTIONS.UPDATE_NOTES:
             return {
                 ...state,
                 [MODIFY_OPTIONS.NOTES]: [...value],

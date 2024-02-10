@@ -44,20 +44,20 @@ export function BodyCards() {
                 {
                     const newList = notes.filter((note, index) => index !== noteIndex)
                     updateContext({
-                        target: MODIFY_OPTIONS.DELETE_NOTE,
+                        target: MODIFY_OPTIONS.UPDATE_NOTES,
                         value: [...newList],
                     });
                 }
                 break;
             case 'clone':
                 {
-                    const clonedNote = notes[noteIndex];
-                    clonedNote.id = notes.id = notes.length;
-                    const newList = [...notes, clonedNote]
-                    updateContext({
-                        target: MODIFY_OPTIONS.DELETE_NOTE,
-                        value: [...newList],
-                    });
+                    // const clonedNote = notes[noteIndex];
+                    // clonedNote.id = notes.id = notes.length;
+                    // const newList = [...notes, clonedNote]
+                    // updateContext({
+                    //     target: MODIFY_OPTIONS.UPDATE_NOTES,
+                    //     value: [...newList],
+                    // });
                 }
                 break;
             default:
