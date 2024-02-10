@@ -10,13 +10,14 @@ const createNote = async (req, res) => {
         await notesRepository.createNoteInDatabase(newNote);
         const createdNote = await notesRepository.getNoteByID(newNote.noteID);
 
-        res.status(201).json({ createdNote });
+        res.status(201).json({ ...createdNote });
     } catch (error) {
         res.status(500).json({ message: 'Error creating note', error: error.message, body: req.body });
     }
 };
 
 const getAllNotes = async (req, res) => {
+    // await sleep(6000);
     try {
         const notes = await notesRepository.getAllNotesFromDatabase();
         res.status(200).json({ notes });
@@ -29,7 +30,7 @@ const getNoteByID = async (req, res) => {
     try {
         const { noteID } = req.params;
         const note = await notesRepository.getNoteByID(noteID);
-        res.status(200).json({ note })
+        res.status(200).json({ ...note })
     } catch (error) {
         res.status(500).json({ message: 'Error getting note', error: error.message });
     }
