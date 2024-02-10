@@ -109,7 +109,7 @@ export function CreateNote() {
             }
 
             const newCreatedNote = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${createNoteRequest.noteID}`)
-            console.log(newCreatedNote);
+            
             updateContext({
                 target: MODIFY_OPTIONS.NOTES,
                 value: [newCreatedNote],
