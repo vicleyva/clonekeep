@@ -3,37 +3,36 @@ import React, { useEffect } from 'react'
 import AppHeader from './AppHeader';
 import AppBody from './AppBody';
 import { Grid } from "@mui/material";
-import { useFetch } from "../hooks/useFetch";
 import { useCustomContextUpdate, MODIFY_OPTIONS } from '../context/CustomContext';
+import { useNotesService } from "../services/useNoteService";
 import Spinner from './Spinner';
 
 export default function AppWrapper() {
     const updateContext = useCustomContextUpdate()
-    const { sendRequest, isLoading, reset } = useFetch();
+    const { isLoading, fetchNotes, reset } = useNotesService();
+
     useEffect(() => {
         // Fetch your notes here
-        const fetchNotes = async () => {
+        const fetchData = async () => {
             try {
-                const response = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes`);
+                const getNotesRequest = await fetchNotes()
+
                 // Update context with the fetched notes
                 updateContext({
                     target: MODIFY_OPTIONS.NOTES,
-                    value: response.notes,
+                    value: getNotesRequest.notes,
                 });
             } catch (error) {
                 // console.error('Error fetching notes:', error);
                 // Handle error if needed
             }
         };
+        fetchData();
 
-        // Call the fetchNotes function when the component mounts
-        fetchNotes();
-
-        // Cleanup function to reset the useFetch state when the component unmounts
         return () => {
             reset();
         };
-    }, []);
+    }, [fetchNotes, reset, updateContext]);
     return (
         <Grid container spacing={2} rowSpacing={1} sx={{
             padding: '0.5rem 1rem',

@@ -4,7 +4,7 @@ import { useCustomContext, useCustomContextUpdate, MODIFY_OPTIONS } from '../con
 import { Note } from './Note';
 import NoteDummy from "./NoteDummy";
 import { Grid, Paper, ClickAwayListener } from '@mui/material';
-import { useFetch } from "../hooks/useFetch";
+import { useNotesService } from "../services/useNoteService";
 
 const defaultNewNote = {
     title: null,
@@ -17,7 +17,8 @@ const defaultNewNote = {
 export function CreateNote() {
     const { notes } = useCustomContext();
     const updateContext = useCustomContextUpdate();
-    const { sendRequest } = useFetch();
+    const { createNote, getNote } = useNotesService();
+
 
     const [newNote, setNewNote] = useState({
         ...defaultNewNote,
@@ -73,43 +74,10 @@ export function CreateNote() {
 
     const handleClickAway = async () => {
         if (!!newNote.text || !!newNote.title || newNote.files.length) {
-            const createNoteRequest = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes`,
-                'POST',
-                JSON.stringify(newNote),
-                {
-                    'Content-Type': 'application/json',
-                }
-            )
+            const createNoteRequest = await createNote(newNote)
 
-            // CREATE FILES ATTACHED TO NOTE
-            if (newNote.files.length) {
-                await Promise.all(newNote.files.map(async file => {
-                    const formData = new FormData()
-                    formData.append('file', file)
-                    await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${createNoteRequest.noteID}/file`,
-                        'POST',
-                        formData
-                    )
-                }))
-            }
+            const newCreatedNote = await getNote(createNoteRequest.noteID)
 
-            //CREATE TAGS ATTACHED TO NOTE
-            if (newNote.tags.length) {
-                await Promise.all(
-                    newNote.tags.map(async tag => {
-                        await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${createNoteRequest.noteID}/tag`,
-                            'POST',
-                            JSON.stringify(tag),
-                            {
-                                'Content-Type': 'application/json',
-                            }
-                        )
-                    })
-                )
-            }
-
-            const newCreatedNote = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${createNoteRequest.noteID}`)
-            
             updateContext({
                 target: MODIFY_OPTIONS.NOTES,
                 value: [newCreatedNote],
