@@ -58,6 +58,23 @@ export const useNotesService = () => {
         }
     }
 
+    const updateNote = async (note) => {
+        try {
+            const response = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${note.noteID}`,
+                'PATCH',
+                JSON.stringify(note),
+                {
+                    'Content-Type': 'application/json',
+                }
+            )
+
+            return response;
+        } catch (error) {
+            console.error('Error updating note:', error);
+            throw error;
+        }
+    }
+
     const getNote = async (noteID) => {
         try {
             const response = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${noteID}`);
@@ -143,5 +160,5 @@ export const useNotesService = () => {
         }
     }
 
-    return { isLoading, fetchNotes, createNoteProcess, createNote, getNote, deleteNote, cloneNote, createNoteFile, createNoteTag, deleteNoteTag, deleteNoteFile, reset };
+    return { isLoading, fetchNotes, createNoteProcess, createNote, getNote, deleteNote, cloneNote, createNoteFile, createNoteTag, deleteNoteTag, deleteNoteFile, updateNote, reset };
 };

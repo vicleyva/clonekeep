@@ -9,7 +9,7 @@ export function EditNoteModal({ open, onClose, index }) {
     const { notes } = useCustomContext();
     const updateContext = useCustomContextUpdate();
     const [editedNote, setEditedNote] = useState(null);
-    const { deleteNoteTag, createNoteTag, getNote, deleteNoteFile, createNoteFile } = useNotesService();
+    const { deleteNoteTag, createNoteTag, getNote, deleteNoteFile, createNoteFile, updateNote } = useNotesService();
 
     useEffect(() => {
         notes[index] && setEditedNote(notes[index]);
@@ -23,11 +23,14 @@ export function EditNoteModal({ open, onClose, index }) {
         setEditedNote({ ...editedNote, text: e.target.value });
     };
 
-    const handleModalClose = () => {
-        const index = notes.findIndex((n) => n.noteID === editedNote.noteID);
+    const handleModalClose = async () => {
+        await updateNote(editedNote)
+        const updatedNote = await getNote(editedNote.noteID)
+
+        const index = notes.findIndex((n) => n.noteID === updatedNote.noteID);
         updateContext({
             target: MODIFY_OPTIONS.UPDATE_NOTE,
-            value: editedNote,
+            value: updatedNote,
             index
         });
 
@@ -49,7 +52,7 @@ export function EditNoteModal({ open, onClose, index }) {
     };
 
     const handleColorChange = (newColor) => {
-        setEditedNote({ ...editedNote, color: (newColor.hex !== 'transparent') ? newColor.hex : '' });
+        setEditedNote({ ...editedNote, color: (newColor.hex !== 'transparent') ? newColor.hex : null });
     };
 
     const handleFileInputChange = async (e) => {
