@@ -1,21 +1,26 @@
 import React, { createContext, useContext, useReducer } from 'react';
 
 export const MODIFY_OPTIONS = {
-    THEME: 'theme',
-    NOTES: 'notes',
+    TOGGLE_THEME: 'toggle_theme',
+    ADD_NOTE: 'add_note',
     SEARCH: 'search',
     UPDATE_NOTE: 'updateNote',
-    UPDATE_NOTES: 'deleteNote',
-    CLONE_NOTE: 'cloneNote'
+    UPDATE_NOTES: 'updateNotes',
 };
+
+const STATE_KEYS = {
+    NOTES: 'notes',
+    THEME: 'theme',
+    SEARCH: 'search'
+}
 
 const ThemeContext = createContext();
 const ThemeUpdateContext = createContext();
 
 const initialState = {
-    [MODIFY_OPTIONS.THEME]: true,
-    [MODIFY_OPTIONS.NOTES]: [],
-    [MODIFY_OPTIONS.SEARCH]: {
+    [STATE_KEYS.THEME]: true,
+    [STATE_KEYS.NOTES]: [],
+    [STATE_KEYS.SEARCH]: {
         texto: null,
         listas: false,
     },
@@ -25,27 +30,27 @@ function customContextReducer(state, action) {
     const { value, index } = action.payload;
 
     switch (action.type) {
-        case MODIFY_OPTIONS.NOTES:
+        case MODIFY_OPTIONS.ADD_NOTE:
             return {
                 ...state,
-                [MODIFY_OPTIONS.NOTES]: [...state[MODIFY_OPTIONS.NOTES], ...value],
+                [STATE_KEYS.NOTES]: [...state[STATE_KEYS.NOTES], ...value],
             };
-        case MODIFY_OPTIONS.THEME:
+        case MODIFY_OPTIONS.TOGGLE_THEME:
             return {
                 ...state,
-                [MODIFY_OPTIONS.THEME]: value,
+                [STATE_KEYS.THEME]: value,
             };
         case MODIFY_OPTIONS.UPDATE_NOTES:
             return {
                 ...state,
-                [MODIFY_OPTIONS.NOTES]: [...value],
+                [STATE_KEYS.NOTES]: [...value],
             };
         case MODIFY_OPTIONS.UPDATE_NOTE:
             const list = [...state[MODIFY_OPTIONS.NOTES]];
             list[index] = value;
             return {
                 ...state,
-                [MODIFY_OPTIONS.NOTES]: list,
+                [STATE_KEYS.NOTES]: list,
             };
         default:
             return state;

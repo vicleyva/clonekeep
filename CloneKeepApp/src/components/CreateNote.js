@@ -79,7 +79,7 @@ export function CreateNote() {
             const newCreatedNote = await getNote(createNoteRequest.noteID)
 
             updateContext({
-                target: MODIFY_OPTIONS.NOTES,
+                target: MODIFY_OPTIONS.ADD_NOTE,
                 value: [newCreatedNote],
             });
         }

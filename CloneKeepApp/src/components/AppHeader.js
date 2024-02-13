@@ -40,7 +40,7 @@ export default function AppHeader() {
                     />
                 </Grid>
                 <Grid container item spacing={2} justifyContent="flex-end" xs={2} sm={2} md={4} sx={{ marginTop: 0 }}>
-                    <IconButton onClick={() => updateContext({ target: MODIFY_OPTIONS.THEME, value: !theme })}>
+                    <IconButton onClick={() => updateContext({ target: MODIFY_OPTIONS.TOGGLE_THEME, value: !theme })}>
                         {theme ? <LightModeIcon /> : <DarkModeIcon />}
                     </IconButton>
                 </Grid>
