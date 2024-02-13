@@ -10,7 +10,7 @@ const createNote = async (req, res) => {
         await notesRepository.createNoteInDatabase(newNote);
 
 
-        res.status(201).json({ message: 'Note cloned', noteID: newNote.noteID });
+        res.status(201).json({ message: 'Note created', noteID: newNote.noteID });
     } catch (error) {
         res.status(500).json({ message: 'Error creating note', error: error.message, body: req.body });
     }
