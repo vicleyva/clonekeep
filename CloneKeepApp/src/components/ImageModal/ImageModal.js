@@ -4,8 +4,7 @@ import { Dialog, DialogContent, DialogActions, Button } from '@mui/material';
 export function ImageModal({
     note,
     selectedImage,
-    closeModal,
-    File
+    closeModal
 }) {
     return (
         <Dialog open={selectedImage !== null} onClose={closeModal} style={{

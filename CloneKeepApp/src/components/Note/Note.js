@@ -17,7 +17,8 @@ export function Note({
     handleDeleteTag,
     handleAddTag,
     handleColorChange,
-    handleFileInputChange
+    handleFileInputChange,
+    handleDeleteFile
 }) {
     const [colorPickerVisible, setColorPickerVisible] = useState(false);
     const [tagMenuAnchor, setTagMenuAnchor] = useState(null);
@@ -45,7 +46,7 @@ export function Note({
     };
 
     return <>
-        <ImagesArea note={note} />
+        <ImagesArea note={note} handleDeleteFile={handleDeleteFile} />
         <TextField placeholder="Title"
             InputProps={{
                 style: {
@@ -122,9 +123,17 @@ export function Note({
                     }}
                 />
             }
-            <input type="file" id="fileInput" multiple accept=".jpg,.jpeg,.png,.svg" ref={fileInputRef} style={{
-                display: 'none'
-            }} onChange={handleFileInputChange} />
+            <input
+                type="file"
+                id="fileInput"
+                multiple
+                accept=".jpg,.jpeg,.png,.svg"
+                ref={fileInputRef}
+                style={{
+                    display: 'none'
+                }}
+                onChange={handleFileInputChange}
+            />
         </div>
     </>;
 }

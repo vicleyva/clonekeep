@@ -60,6 +60,10 @@ export function EditNoteModal({ open, onClose, index }) {
         }
     };
 
+    const handleDeleteFile = (index) => {
+        console.log('File to delete', editedNote.files[index]);
+    }
+
     return (
         <>
             {!!editedNote &&
@@ -88,6 +92,7 @@ export function EditNoteModal({ open, onClose, index }) {
                             handleAddTag={handleAddTag}
                             handleColorChange={handleColorChange}
                             handleFileInputChange={handleFileInputChange}
+                            handleDeleteFile={handleDeleteFile}
                         />
                     </DialogContent>
                     <DialogActions>

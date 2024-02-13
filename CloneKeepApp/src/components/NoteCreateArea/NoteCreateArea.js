@@ -64,6 +64,13 @@ export function NoteCreateArea() {
         }
     };
 
+    const handleDeleteFile = (index) => {
+        let filesNewArray = newNote.files.filter((file, fileIndex) => fileIndex !== index)
+        setNewNote(prev => ({
+            ...prev, files: [...filesNewArray]
+        }))
+    }
+
     const handleColorChange = (newColor) => {
         setNewNote({ ...newNote, color: (newColor.hex !== 'transparent') ? newColor.hex : null });
     };
@@ -122,6 +129,7 @@ export function NoteCreateArea() {
                                 handleAddTag={handleAddTag}
                                 handleColorChange={handleColorChange}
                                 handleFileInputChange={handleFileInputChange}
+                                handleDeleteFile={handleDeleteFile}
                             />
                         ) : (
                             <NoteDummy handleFileInputChange={handleFileInputChange} />
