@@ -30,6 +30,29 @@ async function createNoteInDatabase(note) {
   }
 }
 
+async function updateNote(note) {
+  try {
+    const connection = await pool.getConnection();
+
+    const [result] = await connection.query(
+      `UPDATE notes 
+      SET title = ?,
+      text = ?,
+      color = ?,
+      updatedAt = NOW()
+      WHERE noteID = ?
+      `,
+      [note.title, note.text, note.color, note.noteID]
+    );
+    connection.release();
+
+    return result;
+  } catch (error) {
+    console.error('Error updating note in the database:', error);
+    throw error;
+  }
+}
+
 /**
  * 
  * @returns {Promise<NoteDto>} 
@@ -357,6 +380,7 @@ async function deleteNoteTag(noteTagID) {
 
 module.exports = {
   createNoteInDatabase,
+  updateNote,
   getAllNotesFromDatabase,
   getNoteByID,
   saveFileInDatabase,

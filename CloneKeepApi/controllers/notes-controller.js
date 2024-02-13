@@ -16,6 +16,24 @@ const createNote = async (req, res) => {
     }
 };
 
+const updateNoteByID = async (req, res) => {
+    try {
+        const { noteID } = req.params;
+        const targetNote = req.body;
+        // get note from BD
+        const note = await notesRepository.getNoteByID(noteID);
+        if (!note) {
+            throw new Error('Note not found')
+        }
+        
+        await notesRepository.updateNote(targetNote)
+
+        res.status(200).json({ message: 'Note updated' })
+    } catch (error) {
+        res.status(500).json({ message: 'Error updating note', error: error.message });
+    }
+}
+
 const getAllNotes = async (req, res) => {
     // await sleep(6000);
     try {
@@ -238,6 +256,7 @@ const deleteNoteTag = async (req, res) => {
 
 module.exports = {
     createNote,
+    updateNoteByID,
     getAllNotes,
     createNoteFile,
     createNoteTag,
