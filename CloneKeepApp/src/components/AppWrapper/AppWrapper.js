@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react'
 
-import AppHeader from './AppHeader';
-import AppBody from './AppBody';
+import AppHeader from '../AppHeader/AppHeader';
+import AppBody from '../AppBody/AppBody';
 import { Grid } from "@mui/material";
-import { useCustomContextUpdate, MODIFY_OPTIONS } from '../context/CustomContext';
-import { useNotesService } from "../services/useNoteService";
-import Spinner from './Spinner';
+import { useCustomContextUpdate, MODIFY_OPTIONS } from '../../context/CustomContext';
+import { useNotesService } from "../../services/useNoteService";
+import Spinner from '../UI/Spinner';
 
 export default function AppWrapper() {
     const updateContext = useCustomContextUpdate()

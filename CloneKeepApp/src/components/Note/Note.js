@@ -1,13 +1,13 @@
 import React, { useRef, useState } from "react";
 
-import { ImagesArea } from './ImagesArea';
+import { ImagesArea } from './ImagesArea/ImagesArea';
+import TagManager from "./TagManager/TagManager";
+import './Note.css'
 import { TextField, Tooltip, IconButton, Menu, MenuItem } from '@mui/material';
 import ImageOutlinedIcon from '@mui/icons-material/ImageOutlined';
 import PaletteOutlinedIcon from '@mui/icons-material/PaletteOutlined';
 import LocalOfferOutlinedIcon from '@mui/icons-material/LocalOfferOutlined';
 import { CirclePicker } from 'react-color';
-import './CirclePickerStyles.css'
-import TagManager from "./TagManager";
 import Chip from '@mui/material/Chip';
 
 export function Note({

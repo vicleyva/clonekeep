@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
+import { ImageModal } from '../../ImageModal/ImageModal';
 import { ImageList, ImageListItem } from "@mui/material";
-import { Dialog, DialogContent, DialogActions, Button } from '@mui/material';
 
 export function ImagesArea({ note }) {
     const [selectedImage, setSelectedImage] = useState(null);
@@ -47,22 +47,8 @@ export function ImagesArea({ note }) {
                 })}
             </ImageList >
             {selectedImage !== null && (
-                <Dialog open={selectedImage !== null} onClose={closeModal} style={{ width: '100%', height: '100%' }}>
-                    <DialogContent>
-                        <img
-                            src={(note.files[selectedImage] instanceof File) ? URL.createObjectURL(note.files[selectedImage]) : `${process.env.REACT_APP_ASSETS_URL}/${note.files[selectedImage].name}`}
-                            alt={`Note ${selectedImage}`}
-                            style={{
-                                width: '100%',
-                                height: 'auto',
-                                objectFit: 'cover',
-                            }}
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={closeModal}>Cerrar</Button>
-                    </DialogActions>
-                </Dialog>)
+                <ImageModal note={note} selectedImage={selectedImage} closeModal={closeModal} File={File} />
+            )
             }
         </>
     );

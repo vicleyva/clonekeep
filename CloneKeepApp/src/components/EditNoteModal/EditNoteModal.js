@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Backdrop } from '@mui/material';
-import { useCustomContext, useCustomContextUpdate, MODIFY_OPTIONS } from '../context/CustomContext';
-import { Note } from './Note';
+import { useCustomContext, useCustomContextUpdate, MODIFY_OPTIONS } from '../../context/CustomContext';
+import { Note } from '../Note/Note';
 
 export function EditNoteModal({ open, onClose, index }) {
     const { notes } = useCustomContext();
@@ -50,7 +50,7 @@ export function EditNoteModal({ open, onClose, index }) {
 
     const handleFileInputChange = (e) => {
         const files = e.target.files;
-        
+
         if (files && files.length > 0) {
             if (!editedNote.files.length) {
                 setEditedNote((prev) => ({ ...prev, files: files }));
@@ -67,7 +67,7 @@ export function EditNoteModal({ open, onClose, index }) {
                     onClose={onClose}
                     PaperProps={{
                         style: {
-                            backgroundColor: (editedNote.color) ? editedNote.color : 'transparent',
+                            backgroundColor: (editedNote.color) ? editedNote.color : '',
                             margin: '0.3rem'
                         }
                     }}

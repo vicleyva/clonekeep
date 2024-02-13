@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 
-import { useCustomContext, useCustomContextUpdate, MODIFY_OPTIONS } from '../context/CustomContext';
-import { useNotesService } from "../services/useNoteService";
-import { EditNoteModal } from "./EditNoteModal";
+import { useCustomContext, useCustomContextUpdate, MODIFY_OPTIONS } from '../../context/CustomContext';
+import { useNotesService } from "../../services/useNoteService";
+import { EditNoteModal } from "../EditNoteModal/EditNoteModal";
 import { Grid, ImageList, ImageListItem, Paper, TextField } from "@mui/material";
 import Masonry from '@mui/lab/Masonry';
 import Chip from '@mui/material/Chip';
@@ -11,9 +11,9 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-import './BodyCards.css'
+import './BodyCardsArea.css'
 
-export function BodyCards() {
+export function BodyCardsArea() {
     const { notes } = useCustomContext();
     const updateContext = useCustomContextUpdate();
     const [selectedNoteIndex, setSelectedNoteIndex] = useState(null);

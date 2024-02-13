@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useCallback } from "react";
 
-import { useCustomContext, useCustomContextUpdate, MODIFY_OPTIONS } from '../context/CustomContext';
-import { Note } from './Note';
-import NoteDummy from "./NoteDummy";
+import { useCustomContext, useCustomContextUpdate, MODIFY_OPTIONS } from '../../context/CustomContext';
+import { Note } from '../Note/Note';
+import NoteDummy from "../NoteDummy/NoteDummy";
 import { Grid, Paper, ClickAwayListener } from '@mui/material';
-import { useNotesService } from "../services/useNoteService";
+import { useNotesService } from "../../services/useNoteService";
 
 const defaultNewNote = {
     title: null,
@@ -14,7 +14,7 @@ const defaultNewNote = {
     tags: [],
 };
 
-export function CreateNote() {
+export function NoteCreateArea() {
     const { notes } = useCustomContext();
     const updateContext = useCustomContextUpdate();
     const { createNote, getNote } = useNotesService();

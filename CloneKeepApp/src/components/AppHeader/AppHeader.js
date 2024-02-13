@@ -1,4 +1,5 @@
 import React from 'react'
+
 import TextField from '@mui/material/TextField'
 import IconButton from "@mui/material/IconButton"
 import { Grid } from "@mui/material"
@@ -6,7 +7,7 @@ import { Search } from "@mui/icons-material"
 import CloseIcon from '@mui/icons-material/Close'
 import LightModeIcon from '@mui/icons-material/LightMode'
 import DarkModeIcon from '@mui/icons-material/DarkMode';
-import { useCustomContext, useCustomContextUpdate, MODIFY_OPTIONS } from '../context/CustomContext';
+import { useCustomContext, useCustomContextUpdate, MODIFY_OPTIONS } from '../../context/CustomContext';
 
 export default function AppHeader() {
     const { theme } = useCustomContext()
