@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 import { useCustomContext, useCustomContextUpdate, MODIFY_OPTIONS } from '../context/CustomContext';
+import { useNotesService } from "../services/useNoteService";
 import { EditNoteModal } from "./EditNoteModal";
 import { Grid, ImageList, ImageListItem, Paper, TextField } from "@mui/material";
 import Masonry from '@mui/lab/Masonry';
@@ -18,6 +19,7 @@ export function BodyCards() {
     const [selectedNoteIndex, setSelectedNoteIndex] = useState(null);
     const [hoveredIndex, setHoveredIndex] = useState(null);
     const [anchorMenu, setAnchorElMenu] = useState(null);
+    const { fetchNotes, deleteNote, cloneNote } = useNotesService();
 
     const handleEditClick = (index) => {
         setSelectedNoteIndex(index);
@@ -35,29 +37,31 @@ export function BodyCards() {
         setHoveredIndex(null);
     };
 
-    const handleNoteEvent = (e, noteIndex) => {
+    const handleNoteEvent = async (e, noteIndex) => {
         e.preventDefault();
         e.stopPropagation();
 
         switch (e.currentTarget.id) {
             case 'delete':
                 {
-                    const newList = notes.filter((note, index) => index !== noteIndex)
+                    const targetNoteToDelete = notes.find((note, index) => index === noteIndex)
+                    await deleteNote(targetNoteToDelete.noteID)
+                    const getNotesRequest = await fetchNotes()
                     updateContext({
                         target: MODIFY_OPTIONS.UPDATE_NOTES,
-                        value: [...newList],
+                        value: getNotesRequest.notes,
                     });
                 }
                 break;
             case 'clone':
                 {
-                    // const clonedNote = notes[noteIndex];
-                    // clonedNote.id = notes.id = notes.length;
-                    // const newList = [...notes, clonedNote]
-                    // updateContext({
-                    //     target: MODIFY_OPTIONS.UPDATE_NOTES,
-                    //     value: [...newList],
-                    // });
+                    const targetNoteToClone = notes.find((note, index) => index === noteIndex)
+                    await cloneNote(targetNoteToClone.noteID)
+                    const getNotesRequest = await fetchNotes()
+                    updateContext({
+                        target: MODIFY_OPTIONS.UPDATE_NOTES,
+                        value: getNotesRequest.notes,
+                    });
                 }
                 break;
             default:

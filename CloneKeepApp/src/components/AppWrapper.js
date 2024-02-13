@@ -19,7 +19,7 @@ export default function AppWrapper() {
 
                 // Update context with the fetched notes
                 updateContext({
-                    target: MODIFY_OPTIONS.NOTES,
+                    target: MODIFY_OPTIONS.UPDATE_NOTES,
                     value: getNotesRequest.notes,
                 });
             } catch (error) {
@@ -32,7 +32,8 @@ export default function AppWrapper() {
         return () => {
             reset();
         };
-    }, [fetchNotes, reset, updateContext]);
+        // eslint-disable-next-line
+    }, []);
     return (
         <Grid container spacing={2} rowSpacing={1} sx={{
             padding: '0.5rem 1rem',

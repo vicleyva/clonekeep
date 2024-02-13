@@ -1,7 +1,6 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 
 export const useFetch = () => {
-    const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
@@ -33,7 +32,6 @@ export const useFetch = () => {
                     ? await response.json()
                     : await response.text();
 
-                setData(responseData);
                 setIsLoading(false);
                 return responseData;
             } catch (err) {
@@ -51,7 +49,6 @@ export const useFetch = () => {
     );
 
     const reset = () => {
-        setData(null);
         setError(null);
         setIsLoading(false);
     };
@@ -63,5 +60,5 @@ export const useFetch = () => {
         };
     }, []);
 
-    return { data, isLoading, error, sendRequest, reset };
+    return { isLoading, error, sendRequest, reset };
 };

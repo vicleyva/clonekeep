@@ -8,9 +8,8 @@ export const useNotesService = () => {
             const response = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes`);
             return response;
         } catch (error) {
-            // Handle error if needed
             console.error('Error fetching notes:', error);
-            throw error; // You might want to throw the error to handle it outside of this function
+            throw error;
         }
     };
 
@@ -52,9 +51,8 @@ export const useNotesService = () => {
             }
             return response;
         } catch (error) {
-            // Handle error if needed
             console.error('Error creating note:', error);
-            throw error; // You might want to throw the error to handle it outside of this function
+            throw error;
         }
     }
 
@@ -63,11 +61,30 @@ export const useNotesService = () => {
             const response = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${noteID}`);
             return response;
         } catch (error) {
-            // Handle error if needed
             console.error('Error fetching note:', error);
-            throw error; // You might want to throw the error to handle it outside of this function
+            throw error;
         }
     }
 
-    return { isLoading, fetchNotes, createNote, getNote, reset };
+    const deleteNote = async (noteID) => {
+        try {
+            const response = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${noteID}`, 'DELETE')
+            return response;
+        } catch (error) {
+            console.error('Error deleting note:', error);
+            throw error;
+        }
+    }
+
+    const cloneNote = async (noteID) => {
+        try {
+            const response = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${noteID}/clone`, 'POST')
+            return response;
+        } catch (error) {
+            console.error('Error cloning note:', error);
+            throw error;
+        }
+    }
+
+    return { isLoading, fetchNotes, createNote, getNote, deleteNote, cloneNote, reset };
 };
