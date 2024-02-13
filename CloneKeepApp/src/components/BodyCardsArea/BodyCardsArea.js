@@ -106,7 +106,6 @@ export function BodyCardsArea() {
                             selectedNoteIndex={selectedNoteIndex}
                             hoveredIndex={hoveredIndex}
                             anchorMenu={anchorMenu}
-                            undefined={undefined}
                             handleClick={handleClick}
                             handleClose={handleClose}
                             handleNoteEvent={handleNoteEvent} />

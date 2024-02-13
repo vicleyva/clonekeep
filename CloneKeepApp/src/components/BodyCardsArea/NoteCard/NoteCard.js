@@ -16,7 +16,6 @@ export function NoteCard({
     selectedNoteIndex,
     hoveredIndex,
     anchorMenu,
-    undefined,
     handleClick,
     handleClose,
     handleNoteEvent
@@ -90,10 +89,17 @@ export function NoteCard({
                     value={note.text}
                 />
             }
-            {!!note.tags && note.tags.map((tag, tagIndex) => <Chip key={tagIndex} label={tag.text} style={{
-                marginRight: '0.5rem',
-                marginBottom: '0.5rem'
-            }} />)}
+            {!!note.tags && note.tags.map((tag, tagIndex) => (
+                <Chip
+                    key={tagIndex}
+                    label={tag.text}
+                    style={{
+                        marginRight: '0.5rem',
+                        marginBottom: '0.5rem'
+                    }}
+                />
+            )
+            )}
             {hoveredIndex === index && <div className="delete-icon-container">
                 <IconButton aria-label="more" id="menu-button" aria-controls={anchorMenu ? 'long-menu' : undefined} aria-expanded={anchorMenu ? 'true' : undefined} aria-haspopup="true" onClick={handleClick}>
                     <MoreVertIcon />
