@@ -8,9 +8,9 @@ const createNote = async (req, res) => {
         newNote.noteID = uuid.v4();
 
         await notesRepository.createNoteInDatabase(newNote);
-        const createdNote = await notesRepository.getNoteByID(newNote.noteID);
 
-        res.status(201).json({ ...createdNote });
+
+        res.status(201).json({ message: 'Note cloned', noteID: newNote.noteID });
     } catch (error) {
         res.status(500).json({ message: 'Error creating note', error: error.message, body: req.body });
     }
@@ -146,11 +146,7 @@ const createNoteFile = async (req, res) => {
         }
         await notesRepository.associateNoteWithFile(note_file)
 
-        return res.status(201).json({
-            noteFileID: note_file.noteFileID,
-            fileID: note_file.fileID,
-            name: (foundFile) ? foundFile.name : newFile.name
-        });
+        return res.status(201).json({ message: 'Note file created' });
     } catch (error) {
         fs.unlink(req.file.path, (unlinkError) => {
             if (unlinkError) {
@@ -192,11 +188,7 @@ const createNoteTag = async (req, res) => {
         }
         await notesRepository.associateNoteWithTag(note_tag)
 
-        return res.status(201).json({
-            noteTagID: note_tag.noteTagID,
-            tagID: note_tag.tagID,
-            text: (foundTag) ? foundTag.text : newTag.text
-        });
+        return res.status(201).json({ message: 'Note tag created' });
     } catch (error) {
         return res.status(404).json({ message: 'Error creating note tag', error: error.message });
     }
