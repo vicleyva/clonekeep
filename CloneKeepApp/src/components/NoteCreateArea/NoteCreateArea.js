@@ -17,7 +17,7 @@ const defaultNewNote = {
 export function NoteCreateArea() {
     const { notes } = useCustomContext();
     const updateContext = useCustomContextUpdate();
-    const { createNote, getNote } = useNotesService();
+    const { createNoteProcess, getNote } = useNotesService();
 
 
     const [newNote, setNewNote] = useState({
@@ -81,7 +81,7 @@ export function NoteCreateArea() {
 
     const handleClickAway = async () => {
         if (!!newNote.text || !!newNote.title || newNote.files.length) {
-            const createNoteRequest = await createNote(newNote)
+            const createNoteRequest = await createNoteProcess(newNote)
 
             const newCreatedNote = await getNote(createNoteRequest.noteID)
 
