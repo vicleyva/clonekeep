@@ -19,7 +19,7 @@ export function ImageModal({
                 }} />
             </DialogContent>
             <DialogActions>
-                <Button onClick={closeModal}>Cerrar</Button>
+                <Button onClick={closeModal}>Close</Button>
             </DialogActions>
         </Dialog>
     );

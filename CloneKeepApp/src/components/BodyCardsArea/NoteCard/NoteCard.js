@@ -40,9 +40,9 @@ export function NoteCard({
                         width: '100%'
                     }}
                     variant="quilted"
-                    cols={Array.from(note.files).length < 3 ? Array.from(note.files).length : 3}
+                    cols={(note.files.length < 3) ? note.files.length : 3}
                 >
-                    {Array.from(note.files).map((file, index) => {
+                    {note.files.map((file, index) => {
                         return (
                             <ImageListItem key={index} cols={1} rows={1}>
                                 <img src={`${process.env.REACT_APP_ASSETS_URL}/${file.name}`}
@@ -53,7 +53,7 @@ export function NoteCard({
                                         objectFit: 'cover',
                                         cursor: 'pointer',
                                         maxHeight: '10rem',
-                                        maxWidth: '10rem'
+                                        maxWidth: '100%',
                                     }}
                                 />
                             </ImageListItem>

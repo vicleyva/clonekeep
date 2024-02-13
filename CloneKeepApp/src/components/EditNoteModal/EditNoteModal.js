@@ -45,7 +45,7 @@ export function EditNoteModal({ open, onClose, index }) {
     };
 
     const handleColorChange = (newColor) => {
-        setEditedNote({ ...editedNote, color: (newColor.hex !== 'transparent') ? newColor.hex : 'transparent' });
+        setEditedNote({ ...editedNote, color: (newColor.hex !== 'transparent') ? newColor.hex : '' });
     };
 
     const handleFileInputChange = (e) => {
@@ -96,8 +96,8 @@ export function EditNoteModal({ open, onClose, index }) {
                         />
                     </DialogContent>
                     <DialogActions>
-                        <Button variant='outlined' onClick={onClose}>Cancelar</Button>
-                        <Button variant='outlined' onClick={handleSave}>Guardar</Button>
+                        <Button variant='outlined' onClick={onClose}>Cancel</Button>
+                        <Button variant='outlined' onClick={handleSave}>Save</Button>
                     </DialogActions>
                 </Dialog>
             }
