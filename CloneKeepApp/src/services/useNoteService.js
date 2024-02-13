@@ -103,6 +103,18 @@ export const useNotesService = () => {
         }
     }
 
+    const deleteNoteFile = async (noteID, noteFileID) => {
+        try {
+            const response = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${noteID}/file/${noteFileID}`,
+                'DELETE',
+            )
+            return response;
+        } catch (error) {
+            console.error('Error deleting note file:', error);
+            throw error;
+        }
+    }
+
     const createNoteTag = async (noteID, tag) => {
         try {
             const response = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${noteID}/tag`,
@@ -126,10 +138,10 @@ export const useNotesService = () => {
             )
             return response;
         } catch (error) {
-            console.error('Error creating note tag:', error);
+            console.error('Error deleting note tag:', error);
             throw error;
         }
     }
 
-    return { isLoading, fetchNotes, createNoteProcess, createNote, getNote, deleteNote, cloneNote, createNoteFile, createNoteTag, deleteNoteTag, reset };
+    return { isLoading, fetchNotes, createNoteProcess, createNote, getNote, deleteNote, cloneNote, createNoteFile, createNoteTag, deleteNoteTag, deleteNoteFile, reset };
 };

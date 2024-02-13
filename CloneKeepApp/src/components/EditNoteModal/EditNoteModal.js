@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button, Backdrop } from '@mui/material';
+import { useNotesService } from "../../services/useNoteService";
+import { Dialog, DialogTitle, DialogContent, Backdrop } from '@mui/material';
 import { useCustomContext, useCustomContextUpdate, MODIFY_OPTIONS } from '../../context/CustomContext';
 import { Note } from '../Note/Note';
 
@@ -8,6 +9,7 @@ export function EditNoteModal({ open, onClose, index }) {
     const { notes } = useCustomContext();
     const updateContext = useCustomContextUpdate();
     const [editedNote, setEditedNote] = useState(null);
+    const { deleteNoteTag, createNoteTag, getNote, deleteNoteFile, createNoteFile } = useNotesService();
 
     useEffect(() => {
         notes[index] && setEditedNote(notes[index]);
@@ -21,54 +23,60 @@ export function EditNoteModal({ open, onClose, index }) {
         setEditedNote({ ...editedNote, text: e.target.value });
     };
 
-    const handleSave = () => {
-        const index = notes.findIndex((n) => n.id === editedNote.id);
-        if (index !== -1) {
-            updateContext({
-                target: MODIFY_OPTIONS.UPDATE_NOTE,
-                value: editedNote,
-                index
-            });
-        }
+    const handleModalClose = () => {
+        const index = notes.findIndex((n) => n.noteID === editedNote.noteID);
+        updateContext({
+            target: MODIFY_OPTIONS.UPDATE_NOTE,
+            value: editedNote,
+            index
+        });
 
         onClose();
-    };
+    }
 
-    const handleAddTag = (tag) => {
-        setEditedNote((prev) => ({ ...prev, tags: [...prev.tags, tag] }));
+    const handleAddTag = async (tag) => {
+        const newTag = {
+            text: tag
+        }
+        await createNoteTag(editedNote.noteID, newTag)
+        const updatedNote = await getNote(editedNote.noteID)
+        setEditedNote(updatedNote);
     };
-    const handleDeleteTag = (tagToDelete) => {
-        setEditedNote((prev) => ({
-            ...prev,
-            tags: prev.tags.filter((tag) => tag !== tagToDelete),
-        }));
+    const handleDeleteTag = async (tagToDelete) => {
+        await deleteNoteTag(editedNote.noteID, tagToDelete.noteTagID)
+        const updatedNote = await getNote(editedNote.noteID)
+        setEditedNote(updatedNote);
     };
 
     const handleColorChange = (newColor) => {
         setEditedNote({ ...editedNote, color: (newColor.hex !== 'transparent') ? newColor.hex : '' });
     };
 
-    const handleFileInputChange = (e) => {
+    const handleFileInputChange = async (e) => {
         const files = e.target.files;
+        const filesArray = Array.from(files)
 
-        if (files && files.length > 0) {
-            if (!editedNote.files.length) {
-                setEditedNote((prev) => ({ ...prev, files: files }));
-            } else {
-                setEditedNote((prev) => ({ ...prev, files: [...prev.files, ...files] }));
-            }
+        if (filesArray.length) {
+            await Promise.all(filesArray.map(async file => {
+                await createNoteFile(editedNote.noteID, file)
+            }))
+            const updatedNote = await getNote(editedNote.noteID)
+            setEditedNote(updatedNote);
         }
     };
 
-    const handleDeleteFile = (index) => {
-        console.log('File to delete', editedNote.files[index]);
+    const handleDeleteFile = async (index) => {
+        const fileToDelete = editedNote.files[index]
+        await deleteNoteFile(editedNote.noteID, fileToDelete.noteFileID)
+        const updatedNote = await getNote(editedNote.noteID)
+        setEditedNote(updatedNote);
     }
 
     return (
         <>
             {!!editedNote &&
                 <Dialog open={open}
-                    onClose={onClose}
+                    onClose={handleModalClose}
                     PaperProps={{
                         style: {
                             backgroundColor: (editedNote.color) ? editedNote.color : '',
@@ -95,10 +103,6 @@ export function EditNoteModal({ open, onClose, index }) {
                             handleDeleteFile={handleDeleteFile}
                         />
                     </DialogContent>
-                    <DialogActions>
-                        <Button variant='outlined' onClick={onClose}>Cancel</Button>
-                        <Button variant='outlined' onClick={handleSave}>Save</Button>
-                    </DialogActions>
                 </Dialog>
             }
         </>
