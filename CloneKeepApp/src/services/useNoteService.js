@@ -15,13 +15,13 @@ export const useNotesService = () => {
 
     const createNoteProcess = async (note) => {
         try {
-            const createNoteProcessResponse = await createNote(note)
+            const response = await createNote(note)
 
             // CREATE FILES ATTACHED TO NOTE
             if (note.files.length) {
                 await Promise.all(
                     note.files.map(async file => {
-                        await createNoteFile(createNoteProcessResponse.noteID, file)
+                        await createNoteFile(response.noteID, file)
                     })
                 )
             }
@@ -30,11 +30,11 @@ export const useNotesService = () => {
             if (note.tags.length) {
                 await Promise.all(
                     note.tags.map(async tag => {
-                        await createNoteTag(createNoteProcessResponse.noteID, tag)
+                        await createNoteTag(response.noteID, tag)
                     })
                 )
             }
-            return createNoteProcessResponse;
+            return response;
         } catch (error) {
             console.error('Error creating note process:', error);
             throw error;
@@ -43,7 +43,7 @@ export const useNotesService = () => {
 
     const createNote = async (note) => {
         try {
-            const createNoteResponse = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes`,
+            const response = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes`,
                 'POST',
                 JSON.stringify(note),
                 {
@@ -51,7 +51,7 @@ export const useNotesService = () => {
                 }
             )
 
-            return createNoteResponse;
+            return response;
         } catch (error) {
             console.error('Error creating note:', error);
             throw error;
@@ -92,11 +92,11 @@ export const useNotesService = () => {
         try {
             const formData = new FormData()
             formData.append('file', file)
-            const createNoteFileResponse = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${noteID}/file`,
+            const response = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${noteID}/file`,
                 'POST',
                 formData
             )
-            return createNoteFileResponse;
+            return response;
         } catch (error) {
             console.error('Error creating note file:', error);
             throw error;
@@ -105,19 +105,31 @@ export const useNotesService = () => {
 
     const createNoteTag = async (noteID, tag) => {
         try {
-            const createNoteTagResponse = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${noteID}/tag`,
+            const response = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${noteID}/tag`,
                 'POST',
                 JSON.stringify(tag),
                 {
                     'Content-Type': 'application/json',
                 }
             )
-            return createNoteTagResponse;
+            return response;
         } catch (error) {
             console.error('Error creating note tag:', error);
             throw error;
         }
     }
 
-    return { isLoading, fetchNotes, createNoteProcess, createNote, getNote, deleteNote, cloneNote, createNoteFile, createNoteTag, reset };
+    const deleteNoteTag = async (noteID, noteTagID) => {
+        try {
+            const response = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes/${noteID}/tag/${noteTagID}`,
+                'DELETE',
+            )
+            return response;
+        } catch (error) {
+            console.error('Error creating note tag:', error);
+            throw error;
+        }
+    }
+
+    return { isLoading, fetchNotes, createNoteProcess, createNote, getNote, deleteNote, cloneNote, createNoteFile, createNoteTag, deleteNoteTag, reset };
 };
