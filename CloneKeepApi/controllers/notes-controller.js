@@ -39,6 +39,7 @@ const getNoteByID = async (req, res) => {
 const deleteNoteByID = async (req, res) => {
     try {
         const { noteID } = req.params;
+        
         // get note from BD
         const note = await notesRepository.getNoteByID(noteID);
         if (!note) {
@@ -84,11 +85,9 @@ const cloneNoteByID = async (req, res) => {
                 })
             )
         }
-        console.log('note.tags.length', note.tags.length);
         if (note.tags.length) {
             await Promise.all(
                 note.tags.map(async tag => {
-                    console.log(tag);
                     const tagInfo = await notesRepository.findTag(tag.text);
                     const note_tag = {
                         noteTagID: uuid.v4(),

@@ -30,6 +30,10 @@ async function createNoteInDatabase(note) {
   }
 }
 
+/**
+ * 
+ * @returns {Promise<NoteDto>} 
+ */
 async function getAllNotesFromDatabase() {
   try {
     const connection = await pool.getConnection();
