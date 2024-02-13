@@ -39,7 +39,7 @@ const getNoteByID = async (req, res) => {
 const deleteNoteByID = async (req, res) => {
     try {
         const { noteID } = req.params;
-        
+
         // get note from BD
         const note = await notesRepository.getNoteByID(noteID);
         if (!note) {
@@ -157,7 +157,7 @@ const createNoteFile = async (req, res) => {
                 console.error('Error deleting file on error:', unlinkError.message);
             }
         });
-        return res.status(404).json({ message: error.message });
+        return res.status(404).json({ message: 'Error creating note file', error: error.message });
     }
 };
 
@@ -198,7 +198,28 @@ const createNoteTag = async (req, res) => {
             text: (foundTag) ? foundTag.text : newTag.text
         });
     } catch (error) {
-        return res.status(404).json({ message: error.message });
+        return res.status(404).json({ message: 'Error creating note tag', error: error.message });
+    }
+}
+
+const deleteNoteTag = async (req, res) => {
+    const { noteID, noteTagID } = req.params;
+    try {
+        // get note from BD
+        const note = await notesRepository.getNoteByID(noteID);
+        if (!note) {
+            throw new Error('Note not found')
+        }
+
+        const foundNoteTag = await notesRepository.findNoteTag(noteTagID)
+        if (!foundNoteTag) {
+            throw new Error('Note tag not found')
+        }
+
+        await notesRepository.deleteNoteTag(noteTagID)
+        res.status(200).json({ message: 'Note tag deleted' })
+    } catch (error) {
+        return res.status(404).json({ message: 'Error deleting note tag', error: error.message });
     }
 }
 
@@ -209,5 +230,6 @@ module.exports = {
     createNoteTag,
     getNoteByID,
     deleteNoteByID,
-    cloneNoteByID
+    cloneNoteByID,
+    deleteNoteTag
 };

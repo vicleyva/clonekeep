@@ -19,7 +19,9 @@ router.post('/:noteID/file',
     generateChecksum('md5'),
     notesController.createNoteFile);
 
+
 router.post('/:noteID/tag', notesController.createNoteTag)
+router.delete('/:noteID/tag/:noteTagID', notesController.deleteNoteTag)
 
 router.post('/:noteID/clone', notesController.cloneNoteByID)
 

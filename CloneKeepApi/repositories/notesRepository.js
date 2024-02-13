@@ -300,6 +300,33 @@ async function findTag(text) {
   }
 }
 
+async function findNoteTag(noteTagID) {
+  try {
+    const connection = await pool.getConnection();
+    const [rows] = await connection.query('SELECT * FROM notes_tags WHERE noteTagID = ?', [noteTagID]);
+    connection.release();
+    if (rows.length === 0) {
+      return false;
+    }
+    return rows[0];
+  } catch (error) {
+    console.error('Error finding note tag in the database:', error.message);
+    throw error;
+  }
+}
+
+async function deleteNoteTag(noteTagID) {
+  try {
+    const connection = await pool.getConnection();
+    await connection.query('DELETE FROM notes_tags WHERE noteTagID = ?', [noteTagID]);
+    connection.release();
+    return true;
+  } catch (error) {
+    console.error('Error deleting note tag in the database:', error.message);
+    throw error;
+  }
+}
+
 module.exports = {
   createNoteInDatabase,
   getAllNotesFromDatabase,
@@ -312,6 +339,8 @@ module.exports = {
   associateNoteWithTag,
   findTag,
   deleteNote,
-  findFileByName
+  findFileByName,
+  findNoteTag,
+  deleteNoteTag
 };
 
