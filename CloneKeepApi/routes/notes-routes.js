@@ -18,6 +18,8 @@ router.post('/:noteID/file',
     fileUpload.single('file'),
     generateChecksum('md5'),
     notesController.createNoteFile);
+router.delete('/:noteID/file/:noteFileID', notesController.deleteNoteFile)
+
 
 
 router.post('/:noteID/tag', notesController.createNoteTag)

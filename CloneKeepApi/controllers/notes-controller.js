@@ -157,6 +157,27 @@ const createNoteFile = async (req, res) => {
     }
 };
 
+const deleteNoteFile = async (req, res) => {
+    const { noteID, noteFileID } = req.params;
+    try {
+        // get note from BD
+        const note = await notesRepository.getNoteByID(noteID);
+        if (!note) {
+            throw new Error('Note not found')
+        }
+
+        const foundNoteFile = await notesRepository.findNoteFile(noteFileID)
+        if (!foundNoteFile) {
+            throw new Error('Note tag not found')
+        }
+
+        await notesRepository.deleteNoteFile(noteFileID)
+        res.status(200).json({ message: 'Note file deleted' })
+    } catch (error) {
+        return res.status(404).json({ message: 'Error deleting note file', error: error.message });
+    }
+}
+
 const createNoteTag = async (req, res) => {
     const { noteID } = req.params;
 
@@ -223,5 +244,6 @@ module.exports = {
     getNoteByID,
     deleteNoteByID,
     cloneNoteByID,
-    deleteNoteTag
+    deleteNoteTag,
+    deleteNoteFile
 };

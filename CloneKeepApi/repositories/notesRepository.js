@@ -228,6 +228,34 @@ async function findFileByName(fileName) {
   }
 }
 
+async function findNoteFile(noteFileID) {
+  try {
+    const connection = await pool.getConnection();
+
+    const [rows] = await connection.query('SELECT * FROM notes_files WHERE noteFileID = ?', [noteFileID]);
+
+    connection.release();
+    if (rows.length === 0) {
+      return false;
+    }
+    return rows[0];
+  } catch (error) {
+    console.error('Error finding note file in the database:', error.message);
+  }
+}
+
+async function deleteNoteFile(noteFileID) {
+  try {
+    const connection = await pool.getConnection();
+    await connection.query('DELETE FROM notes_files WHERE noteFileID = ?', [noteFileID]);
+    connection.release();
+    return true;
+  } catch (error) {
+    console.error('Error deleting note file in the database:', error.message);
+    throw error;
+  }
+}
+
 async function getNoteTags(noteID) {
   try {
     const connection = await pool.getConnection();
@@ -341,6 +369,8 @@ module.exports = {
   deleteNote,
   findFileByName,
   findNoteTag,
-  deleteNoteTag
+  deleteNoteTag,
+  findNoteFile,
+  deleteNoteFile
 };
 
