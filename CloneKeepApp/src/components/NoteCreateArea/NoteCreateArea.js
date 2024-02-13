@@ -81,9 +81,9 @@ export function NoteCreateArea() {
 
     const handleClickAway = async () => {
         if (!!newNote.text || !!newNote.title || newNote.files.length) {
-            const createNoteRequest = await createNoteProcess(newNote)
+            const { message, noteID } = await createNoteProcess(newNote)
 
-            const newCreatedNote = await getNote(createNoteRequest.noteID)
+            const newCreatedNote = await getNote(noteID)
 
             updateContext({
                 target: MODIFY_OPTIONS.ADD_NOTE,
