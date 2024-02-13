@@ -39,10 +39,69 @@ const getNoteByID = async (req, res) => {
 const deleteNoteByID = async (req, res) => {
     try {
         const { noteID } = req.params;
-        await notesRepository.deleteNote(noteID);
-        res.status(200).json(true)
+        // get note from BD
+        const note = await notesRepository.getNoteByID(noteID);
+        if (!note) {
+            throw new Error('Note not found')
+        }
+
+        await notesRepository.deleteNote(note.noteID);
+        res.status(200).json({ message: 'Note deleted' })
     } catch (error) {
         res.status(500).json({ message: 'Error deleting note', error: error.message });
+    }
+}
+
+const cloneNoteByID = async (req, res) => {
+    try {
+        const { noteID } = req.params;
+
+        // get note from BD
+        const note = await notesRepository.getNoteByID(noteID);
+        if (!note) {
+            throw new Error('Note not found')
+        }
+
+        const newNote = {
+            noteID: uuid.v4(),
+            title: note.title,
+            text: note.text,
+            color: note.color,
+        }
+        await notesRepository.createNoteInDatabase(newNote);
+
+        // CLONE FILES
+        if (note.files.length) {
+            await Promise.all(
+                note.files.map(async file => {
+                    const fileInfo = await notesRepository.findFileByName(file.name);
+                    const note_file = {
+                        noteFileID: uuid.v4(),
+                        noteID: newNote.noteID,
+                        fileID: fileInfo.fileID
+                    }
+                    await notesRepository.associateNoteWithFile(note_file)
+                })
+            )
+        }
+        console.log('note.tags.length', note.tags.length);
+        if (note.tags.length) {
+            await Promise.all(
+                note.tags.map(async tag => {
+                    console.log(tag);
+                    const tagInfo = await notesRepository.findTag(tag.text);
+                    const note_tag = {
+                        noteTagID: uuid.v4(),
+                        noteID: newNote.noteID,
+                        tagID: tagInfo.tagID
+                    }
+                    await notesRepository.associateNoteWithTag(note_tag)
+                })
+            )
+        }
+        res.status(201).json({ message: 'Note cloned' })
+    } catch (error) {
+        res.status(500).json({ message: 'Error cloning note', error: error.message });
     }
 }
 
@@ -150,5 +209,6 @@ module.exports = {
     createNoteFile,
     createNoteTag,
     getNoteByID,
-    deleteNoteByID
+    deleteNoteByID,
+    cloneNoteByID
 };

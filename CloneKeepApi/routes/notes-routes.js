@@ -21,4 +21,6 @@ router.post('/:noteID/file',
 
 router.post('/:noteID/tag', notesController.createNoteTag)
 
+router.post('/:noteID/clone', notesController.cloneNoteByID)
+
 module.exports = router;

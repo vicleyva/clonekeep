@@ -34,7 +34,9 @@ async function getAllNotesFromDatabase() {
   try {
     const connection = await pool.getConnection();
 
-    const [rows] = await connection.query('SELECT * FROM notes');
+    const [rows] = await connection.query(`SELECT * 
+    FROM notes
+    ORDER BY createdAt`);
     const notes = rows.map(row => new Note(row))
 
     const response = Promise.all(notes.map(async note => {
@@ -205,6 +207,23 @@ async function findFileByChecksum(checksum) {
   }
 }
 
+async function findFileByName(fileName) {
+  try {
+    const connection = await pool.getConnection();
+
+    const [rows] = await connection.query('SELECT fileID, name, ext, checksum FROM files WHERE name = ?', [fileName]);
+
+    connection.release();
+    if (rows.length === 0) {
+      return false;
+    }
+    return rows[0];
+  } catch (error) {
+    console.error('Error finding file by name in the database:', error.message);
+    throw error;
+  }
+}
+
 async function getNoteTags(noteID) {
   try {
     const connection = await pool.getConnection();
@@ -288,6 +307,7 @@ module.exports = {
   getNoteTags,
   associateNoteWithTag,
   findTag,
-  deleteNote
+  deleteNote,
+  findFileByName
 };
 
