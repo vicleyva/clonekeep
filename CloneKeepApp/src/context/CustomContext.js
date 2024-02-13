@@ -46,7 +46,7 @@ function customContextReducer(state, action) {
                 [STATE_KEYS.NOTES]: [...value],
             };
         case MODIFY_OPTIONS.UPDATE_NOTE:
-            const list = [...state[MODIFY_OPTIONS.NOTES]];
+            const list = [...state[STATE_KEYS.NOTES]];
             list[index] = value;
             return {
                 ...state,
