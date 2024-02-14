@@ -1,30 +1,32 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 
+import { useDebouncer } from "../../hooks/useDebouncer";
 import AppHeader from '../AppHeader/AppHeader';
 import AppBody from '../AppBody/AppBody';
 import { Grid } from "@mui/material";
-import { useCustomContextUpdate, MODIFY_OPTIONS } from '../../context/CustomContext';
+import { useCustomContext, useCustomContextUpdate, MODIFY_OPTIONS } from '../../context/CustomContext';
 import { useNotesService } from "../../services/useNoteService";
 import Spinner from '../UI/Spinner';
+import NoNotesFound from './NoNotesFound';
 
 export default function AppWrapper() {
+    const { notes } = useCustomContext()
     const updateContext = useCustomContextUpdate()
+    const [search, setSearch] = useState(null);
+    const debouncedSearch = useDebouncer(search)
     const { isLoading, fetchNotes, reset } = useNotesService();
 
     useEffect(() => {
-        // Fetch your notes here
         const fetchData = async () => {
             try {
-                const getNotesRequest = await fetchNotes()
+                const getNotesRequest = await fetchNotes(debouncedSearch)
 
-                // Update context with the fetched notes
                 updateContext({
                     target: MODIFY_OPTIONS.UPDATE_NOTES,
                     value: getNotesRequest.notes,
                 });
             } catch (error) {
                 // console.error('Error fetching notes:', error);
-                // Handle error if needed
             }
         };
         fetchData();
@@ -32,8 +34,9 @@ export default function AppWrapper() {
         return () => {
             reset();
         };
-        // eslint-disable-next-line
-    }, []);
+
+    }, [debouncedSearch]);
+
     return (
         <Grid container spacing={2} rowSpacing={1} sx={{
             padding: '0.5rem 1rem',
@@ -41,12 +44,11 @@ export default function AppWrapper() {
             justifyContent: 'center',
             width: '100%',
         }}>
+            <AppHeader search={search} setSearch={setSearch}></AppHeader>
             {isLoading && <Spinner></Spinner>}
-            {!isLoading &&
-                <>
-                    <AppHeader></AppHeader>
-                    <AppBody></AppBody>
-                </>
+            {!isLoading && !notes.length && <NoNotesFound></NoNotesFound>}
+            {!isLoading && !!notes.length &&
+                <AppBody></AppBody>
             }
         </Grid>
     )

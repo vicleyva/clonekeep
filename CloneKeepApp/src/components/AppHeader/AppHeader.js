@@ -9,9 +9,16 @@ import LightModeIcon from '@mui/icons-material/LightMode'
 import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { useCustomContext, useCustomContextUpdate, MODIFY_OPTIONS } from '../../context/CustomContext';
 
-export default function AppHeader() {
+export default function AppHeader({ search, setSearch }) {
     const { theme } = useCustomContext()
     const updateContext = useCustomContextUpdate()
+
+    const handleSearchChange = (e) => {
+        setSearch(e.target.value.trim().length ? e.target.value : null)
+    }
+    const handleSearchClean = () => {
+        setSearch(null)
+    }
     return (
         <>
             <Grid container spacing={2} justifyContent="space-between" alignItems="center">
@@ -22,6 +29,8 @@ export default function AppHeader() {
                     <TextField
                         placeholder="Search"
                         fullWidth
+                        value={search || ''}
+                        onChange={handleSearchChange}
                         size="small"
                         InputProps={{
                             style: {
@@ -33,7 +42,7 @@ export default function AppHeader() {
                                 </IconButton>
                             ),
                             endAdornment: (
-                                <IconButton>
+                                <IconButton onClick={handleSearchClean}>
                                     <CloseIcon />
                                 </IconButton>
                             ),
