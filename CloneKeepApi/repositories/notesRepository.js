@@ -84,6 +84,39 @@ async function getAllNotesFromDatabase() {
   }
 }
 
+async function getNotesBySearch(searchParam) {
+  try {
+    const connection = await pool.getConnection();
+
+    const [rows] = await connection.query(`
+      SELECT t1.noteID
+      FROM notes t1
+      LEFT JOIN notes_tags t2 ON t1.noteID = t2.noteID
+      LEFT JOIN tags t3 ON t2.tagID = t3.tagID
+      WHERE (t1.title LIKE ? OR t1.text LIKE ? OR t3.text LIKE ?)
+      GROUP BY t1.noteID
+    `, [`%${searchParam}%`, `%${searchParam}%`, `%${searchParam}%`]);
+
+    const noteIDs = rows.map(row => row.noteID);
+
+    const response = Promise.all(noteIDs.map(async noteID => {
+      // Fetch individual note, files, and tags
+      const note = await getNoteByID(noteID);
+      const files = await getNoteFiles(noteID);
+      const tags = await getNoteTags(noteID);
+
+      return new NoteDto(note, files, tags);
+    }));
+
+    connection.release();
+    return response;
+  } catch (error) {
+    console.error('Error getting notes by search from the database:', error.message);
+    throw error;
+  }
+}
+
+
 async function getNoteByID(noteID) {
   try {
     const connection = await pool.getConnection();
@@ -382,6 +415,7 @@ module.exports = {
   createNoteInDatabase,
   updateNote,
   getAllNotesFromDatabase,
+  getNotesBySearch,
   getNoteByID,
   saveFileInDatabase,
   associateNoteWithFile,

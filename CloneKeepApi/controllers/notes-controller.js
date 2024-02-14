@@ -46,7 +46,7 @@ const getNotes = async (req, res) => {
         if (!search) {
             notes = await notesRepository.getAllNotesFromDatabase();
         } else {
-            notes = []
+            notes = await notesRepository.getNotesBySearch(search)
         }
         res.status(200).json({ notes });
     } catch (error) {
