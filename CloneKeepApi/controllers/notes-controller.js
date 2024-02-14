@@ -2,6 +2,8 @@ const uuid = require('uuid');
 const fs = require('fs');
 const notesRepository = require('../repositories/notesRepository');
 
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
 const createNote = async (req, res) => {
     try {
         const newNote = req.body;
@@ -25,7 +27,7 @@ const updateNoteByID = async (req, res) => {
         if (!note) {
             throw new Error('Note not found')
         }
-        
+
         await notesRepository.updateNote(targetNote)
 
         res.status(200).json({ message: 'Note updated' })
@@ -34,10 +36,18 @@ const updateNoteByID = async (req, res) => {
     }
 }
 
-const getAllNotes = async (req, res) => {
-    // await sleep(6000);
+const getNotes = async (req, res) => {
     try {
-        const notes = await notesRepository.getAllNotesFromDatabase();
+        // await sleep(6000);
+        const { search } = req.query;
+
+        let notes
+        
+        if (!search) {
+            notes = await notesRepository.getAllNotesFromDatabase();
+        } else {
+            notes = []
+        }
         res.status(200).json({ notes });
     } catch (error) {
         res.status(500).json({ message: 'Error getting all notes', error: error.message });
@@ -257,7 +267,7 @@ const deleteNoteTag = async (req, res) => {
 module.exports = {
     createNote,
     updateNoteByID,
-    getAllNotes,
+    getNotes,
     createNoteFile,
     createNoteTag,
     getNoteByID,

@@ -6,7 +6,7 @@ const generateChecksum = require('../middleware/file-checksum');
 
 const router = express.Router()
 
-router.get('/', notesController.getAllNotes);
+router.get('/', notesController.getNotes);
 
 router.get('/:noteID', notesController.getNoteByID)
 
