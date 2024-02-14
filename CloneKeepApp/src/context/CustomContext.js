@@ -3,7 +3,6 @@ import React, { createContext, useContext, useReducer } from 'react';
 export const MODIFY_OPTIONS = {
     TOGGLE_THEME: 'toggle_theme',
     ADD_NOTE: 'add_note',
-    SEARCH: 'search',
     UPDATE_NOTE: 'updateNote',
     UPDATE_NOTES: 'updateNotes',
 };
@@ -11,7 +10,6 @@ export const MODIFY_OPTIONS = {
 const STATE_KEYS = {
     NOTES: 'notes',
     THEME: 'theme',
-    SEARCH: 'search'
 }
 
 const ThemeContext = createContext();
@@ -20,10 +18,6 @@ const ThemeUpdateContext = createContext();
 const initialState = {
     [STATE_KEYS.THEME]: true,
     [STATE_KEYS.NOTES]: [],
-    [STATE_KEYS.SEARCH]: {
-        texto: null,
-        listas: false,
-    },
 };
 
 function customContextReducer(state, action) {
