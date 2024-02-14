@@ -6,7 +6,7 @@ export const useNotesService = () => {
     const fetchNotes = async (searchParam = null) => {
         try {
             // Construct the URL with the search parameter
-            const url = `${process.env.REACT_APP_BASE_URL}/notes${!!searchParam ? `?search=${encodeURIComponent(searchParam)}` : ''}`;
+            const url = `${process.env.REACT_APP_BASE_URL}/notes${!!searchParam ? `?search=${encodeURIComponent(searchParam.trim().toLowerCase())}` : ''}`;
 
             const response = await sendRequest(url);
 
@@ -16,7 +16,6 @@ export const useNotesService = () => {
             throw error;
         }
     };
-
 
     const createNoteProcess = async (note) => {
         try {
