@@ -3,15 +3,20 @@ import { useFetch } from '../hooks/useFetch';
 export const useNotesService = () => {
     const { sendRequest, isLoading, reset } = useFetch();
 
-    const fetchNotes = async () => {
+    const fetchNotes = async (searchParam = null) => {
         try {
-            const response = await sendRequest(`${process.env.REACT_APP_BASE_URL}/notes`);
+            // Construct the URL with the search parameter
+            const url = `${process.env.REACT_APP_BASE_URL}/notes${!!searchParam ? `?search=${encodeURIComponent(searchParam)}` : ''}`;
+
+            const response = await sendRequest(url);
+
             return response;
         } catch (error) {
             console.error('Error fetching notes:', error);
             throw error;
         }
     };
+
 
     const createNoteProcess = async (note) => {
         try {
