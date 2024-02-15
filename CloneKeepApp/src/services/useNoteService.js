@@ -1,7 +1,7 @@
 import { useFetch } from '../hooks/useFetch';
 
 export const useNotesService = () => {
-    const { sendRequest, isLoading, reset } = useFetch();
+    const { sendRequest, isLoading, reset, error } = useFetch();
 
     const fetchNotes = async (searchParam = null) => {
         try {
@@ -164,5 +164,5 @@ export const useNotesService = () => {
         }
     }
 
-    return { isLoading, fetchNotes, createNoteProcess, createNote, getNote, deleteNote, cloneNote, createNoteFile, createNoteTag, deleteNoteTag, deleteNoteFile, updateNote, reset };
+    return { isLoading, error, fetchNotes, createNoteProcess, createNote, getNote, deleteNote, cloneNote, createNoteFile, createNoteTag, deleteNoteTag, deleteNoteFile, updateNote, reset };
 };

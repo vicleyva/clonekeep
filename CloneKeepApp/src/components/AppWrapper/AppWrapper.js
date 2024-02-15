@@ -8,13 +8,14 @@ import { useCustomContext, useCustomContextUpdate, MODIFY_OPTIONS } from '../../
 import { useNotesService } from "../../services/useNoteService";
 import Spinner from '../UI/Spinner';
 import NoNotesFound from './NoNotesFound';
+import ErrorDisplay from '../UI/ErrorDisplay';
 
 export default function AppWrapper() {
     const { notes } = useCustomContext()
     const updateContext = useCustomContextUpdate()
     const [search, setSearch] = useState(null);
     const debouncedSearch = useDebouncer(search)
-    const { isLoading, fetchNotes, reset } = useNotesService();
+    const { isLoading, error, fetchNotes, reset } = useNotesService();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,17 +38,26 @@ export default function AppWrapper() {
 
     }, [debouncedSearch]);
 
+    if (!isLoading && error) {
+        return (<ErrorDisplay error={error}></ErrorDisplay>)
+    }
+
     return (
-        <Grid container spacing={2} rowSpacing={1} sx={{
-            padding: '0.5rem 1rem',
-            margin: 0,
-            justifyContent: 'center',
-            width: '100%',
-        }}>
+        <Grid
+            container
+            spacing={2}
+            rowSpacing={1}
+            sx={{
+                padding: '0.5rem 1rem',
+                margin: 0,
+                justifyContent: 'center',
+                width: '100%',
+            }}
+        >
             <AppHeader search={search} setSearch={setSearch}></AppHeader>
             {isLoading && <Spinner></Spinner>}
-            {!isLoading && !notes.length && <NoNotesFound></NoNotesFound>}
-            {!isLoading && !!notes.length &&
+            {!isLoading && !!search && !notes.length && <NoNotesFound></NoNotesFound>}
+            {!isLoading &&
                 <AppBody></AppBody>
             }
         </Grid>
