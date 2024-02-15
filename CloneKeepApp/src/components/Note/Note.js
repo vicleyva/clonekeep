@@ -59,7 +59,6 @@ export function Note({
             }}
             fullWidth
             variant="standard"
-            multiline
             onChange={handleTitleChange}
             value={note.title || ''}
         />
@@ -67,16 +66,14 @@ export function Note({
             placeholder="Add note..."
             fullWidth
             variant="standard"
-            multiline
             onChange={handleTextChange}
             InputProps={{
-                style: {
-                    outline: 'none',
-                    borderRadius: '0.7rem'
-                },
+                rows: 5,
+                multiline: true,
+                inputComponent: 'textarea',
+                value: note.text || '',
                 disableUnderline: true
             }}
-            value={note.text || ''}
         />
         {note.tags.map((tag, index) =>
             <Chip

@@ -5,7 +5,7 @@ import IconButton from "@mui/material/IconButton"
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { ImageList, ImageListItem, Paper, TextField } from "@mui/material";
+import { ImageList, ImageListItem, Paper, Typography } from "@mui/material";
 
 export function NoteCard({
     note,
@@ -62,33 +62,16 @@ export function NoteCard({
 
                 </ImageList>
             </>}
-            {note.title &&
-                <TextField
-                    size="small"
-                    InputProps={{
-                        disableoutline: 'true',
-                        disableUnderline: true
-                    }}
-                    sx={{
-                        marginBottom: '0.5rem'
-                    }} fullWidth variant="standard"
-                    multiline
-                    value={note.title}
-                />
-            }
-            {note.text &&
-                <TextField
-                    size="small"
-                    InputProps={{
-                        disableoutline: 'true',
-                        disableUnderline: true
-                    }}
-                    fullWidth
-                    variant="standard"
-                    multiline
-                    value={note.text}
-                />
-            }
+            {note.title && (
+                <Typography variant="h6" gutterBottom>
+                    {note.title}
+                </Typography>
+            )}
+            {note.text && (
+                <Typography variant="body1">
+                    {note.text}
+                </Typography>
+            )}
             {!!note.tags && note.tags.map((tag, tagIndex) => (
                 <Chip
                     key={tagIndex}
