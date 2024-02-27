@@ -10,7 +10,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 - [Node.js](https://nodejs.org/) installed on your machine
 - [npm](https://www.npmjs.com/) (Node Package Manager)
-- [knex](https://knexjs.org) installed on your machine
+- [knex](https://knexjs.org) installed a global package
+  - `npm install -g knex`
 - [Mysql](https://www.mysql.com/) installed and a database created.
 
 ### Installing 
